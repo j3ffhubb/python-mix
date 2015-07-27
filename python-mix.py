@@ -31,8 +31,16 @@ if MISSING:
 SIZE = (1024 * 1024) # Read 1MB chunks from the files
 INPUT = [wavefile.WaveReader(x) for x in FILES]
 GENERATORS = [(x, x.read_iter(SIZE)) for x in INPUT]
+SAMPLE_RATES = set(x.samplerate for x in INPUT)
 
-with wavefile.WaveWriter(OUTPUT_FILE, channels=2) as writer:
+if len(SAMPLE_RATES) != 1:
+    print("Error:  Multiple sample rates {0} not yet "
+        "supported".format(tuple(SAMPLE_RATES)))
+    exit(1)
+
+SR = tuple(SAMPLE_RATES)[0]
+
+with wavefile.WaveWriter(OUTPUT_FILE, channels=2, samplerate=SR) as writer:
     while GENERATORS:
         BUFFER = numpy.zeros((2, SIZE))
         for fh, gen in GENERATORS[:]:
