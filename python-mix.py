@@ -28,7 +28,7 @@ if MISSING:
     print("Error:  Missing files: {0}".format(MISSING))
     exit(1)
 
-SIZE = (1024 * 1024) # Read 1MB chunks from the files
+SIZE = (1024 * 1024)
 INPUT = [wavefile.WaveReader(x) for x in FILES]
 GENERATORS = [(x, x.read_iter(SIZE)) for x in INPUT]
 SAMPLE_RATES = set(x.samplerate for x in INPUT)
