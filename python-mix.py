@@ -18,6 +18,7 @@ try:
     import numpy
 except ImportError:
     print("Error:  Please install Numpy")
+    exit(1)
 
 def lin_to_db(a_value):
     if a_value >= 0.001:
